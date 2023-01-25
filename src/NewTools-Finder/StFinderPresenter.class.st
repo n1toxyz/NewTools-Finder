@@ -83,12 +83,12 @@ StFinderPresenter >> defaultLayout [
 { #category : #initialization }
 StFinderPresenter >> initializePresenters [
 
-	searchBar := self instantiate: FinderSearchBar.
+	searchBar := self instantiate: StFinderSearchBar.
 	searchBar searchModes: self model availableSearches.
 
 	resultTree := self newTree display: [ :result | result displayString ].
 
-	resultButtonBar := self instantiate: FinderResultButtonBar.
+	resultButtonBar := self instantiate: StFinderResultButtonBar.
 
 	self flag: #toImplement. "StatusBar with info about nr of packages searched and results."
 	self initializeStatusBar
