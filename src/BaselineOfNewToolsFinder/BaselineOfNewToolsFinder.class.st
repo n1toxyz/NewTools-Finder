@@ -6,10 +6,11 @@ Class {
 
 { #category : #baselines }
 BaselineOfNewToolsFinder >> baseline: spec [
-	<baseline>
 
+	<baseline>
 	spec for: #common do: [
 		spec
-			package: #'NewTool-Finder';
-			package: #'NewTool-Finder-Tests' with: [ spec requires: #( #'NewTool-Finder' ) ] ]
+			package: #'NewTools-Finder';
+			package: #'NewTools-Finder-Tests'
+			with: [ spec requires: #( #'NewTool-Finder' ) ] ]
 ]
