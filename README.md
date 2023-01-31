@@ -9,3 +9,12 @@ Metacello new
  	 repository: 'github://n1toxyz/NewTools-Finder:main/src';
  	 load.
 ```
+
+## TODO
+
+- [ ] Implement missing searches as subclasses of StFinderSearch, e.g. `StFinderExampleSearch`
+- [ ] Implement tests!!! Right now there are none...
+- [ ] Improve GUI. Ideas welcome!
+  - provide more information about the search environment (how many packages are selected, etc), e.g. by adding an StatusBar
+  - explore ways to display results in a better way
+- [ ] Check baseline for missing dependencies
