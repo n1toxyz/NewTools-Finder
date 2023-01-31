@@ -12,6 +12,8 @@ Metacello new
 
 ## TODO
 
+ The tool is already usable, but does not implement all kinds of searches of the old Finder tool yet.
+
 - [ ] Implement missing searches as subclasses of StFinderSearch, e.g. `StFinderExampleSearch`
 - [ ] Implement tests!!! Right now there are none...
 - [ ] Improve GUI. Ideas welcome!
