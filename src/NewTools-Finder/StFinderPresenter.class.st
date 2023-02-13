@@ -10,7 +10,8 @@ Class {
 		'searchBar',
 		'resultTree',
 		'resultButtonBar',
-		'resultStatusBar'
+		'resultStatusBar',
+		'environmentBar'
 	],
 	#category : #'NewTools-Finder-Core'
 }
@@ -39,11 +40,13 @@ StFinderPresenter >> connectPresenters [
 
 	searchBar
 		whenSubmitSearchDo: [ :text | self model searchBy: text ];
-		whenAllPackagesSelectedDo: [ self searchInAllPackages ];
-		whenPackagesSelectedDo: [ self openPackageChooserDialog ];
 		whenRegexActivatedDo: [ self model useRegex: true ];
 		whenRegexDeactivatedDo: [ self model useRegex: false ];
 		whenSearchModeChangedDo: [ :new | self model currentSearch: new ].
+
+	environmentBar
+		whenAllPackagesSelectedDo: [ self searchInAllPackages ];
+		whenPackagesSelectedDo: [ self openPackageChooserDialog ].
 
 	resultTree whenSelectedItemChangedDo: [ :newResult |
 		newResult
@@ -72,8 +75,8 @@ StFinderPresenter >> defaultLayout [
 	self flag: #todo. "Add Statusbar back again"
 	^ SpBoxLayout newTopToBottom
 		  spacing: 5;
-		  add: searchBar
-		  expand: false;
+		  add: searchBar expand: false;
+		add: environmentBar expand: false;
 		  add: resultTree;
 		  "add: resultStatusBar expand: false;"add: resultButtonBar
 		  expand: false;
@@ -85,6 +88,9 @@ StFinderPresenter >> initializePresenters [
 
 	searchBar := self instantiate: StFinderSearchBar.
 	searchBar searchModes: self model availableSearches.
+
+	environmentBar := self instantiate: StFinderEnvironmentBar.
+	self updateEnvironmentStatusFor: self model selectedPackages.
 
 	resultTree := self newTree display: [ :result | result displayString ].
 
@@ -154,7 +160,8 @@ StFinderPresenter >> searchInAllPackages [
 	"Selects all packages for searching."
 
 	self model selectAllPackages.
-	searchBar activateAllPackages
+	environmentBar activateAllPackages.
+	self updateEnvironmentStatusFor: self model selectedPackages
 ]
 
 { #category : #private }
@@ -162,7 +169,8 @@ StFinderPresenter >> searchInPackages: aCollection [
 	"Sets the search environment in the model to the package names given in aCollection."
 
 	self model selectedPackagesByName: aCollection.
-	searchBar activateChosenPackages
+	environmentBar activateChosenPackages.
+	self updateEnvironmentStatusFor: aCollection
 ]
 
 { #category : #information }
@@ -178,6 +186,12 @@ StFinderPresenter >> subscribeToAnnouncements [
 	self model whenSearchEnded: [ :results |
 		self updateResultsWith: results ].
 	self model whenSearchTypesChanged: [ self searchBar updateSearchModes ]
+]
+
+{ #category : #'updating - widgets' }
+StFinderPresenter >> updateEnvironmentStatusFor: packages [
+
+	environmentBar status: packages size asString , ' Packages selected'
 ]
 
 { #category : #'updating - widgets' }

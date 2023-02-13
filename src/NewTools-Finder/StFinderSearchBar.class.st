@@ -9,38 +9,10 @@ Class {
 		'searchButton',
 		'searchModeDropList',
 		'helpButton',
-		'enableRegexpCheckBox',
-		'chosenPackagesButton',
-		'allPackagesButton'
+		'enableRegexpCheckBox'
 	],
 	#category : #'NewTools-Finder-Widgets'
 }
-
-{ #category : #'updating - widgets' }
-StFinderSearchBar >> activateAllPackages [
-
-	allPackagesButton iconName: #radioButtonSelected.
-	chosenPackagesButton iconName: #radioButtonUnselected
-]
-
-{ #category : #'updating - widgets' }
-StFinderSearchBar >> activateChosenPackages [
-
-	allPackagesButton iconName: #radioButtonUnselected.
-	chosenPackagesButton iconName: #radioButtonSelected
-]
-
-{ #category : #accessing }
-StFinderSearchBar >> allPackagesButton [
-
-	^ allPackagesButton
-]
-
-{ #category : #accessing }
-StFinderSearchBar >> chosenPackagesButton [
-
-	^ chosenPackagesButton
-]
 
 { #category : #initialization }
 StFinderSearchBar >> connectPresenters [
@@ -58,20 +30,18 @@ StFinderSearchBar >> connectPresenters [
 StFinderSearchBar >> defaultLayout [
 
 	^ SpBoxLayout newTopToBottom
+		  spacing: 2;
+		  add: (SpBoxLayout newLeftToRight
 				   spacing: 2;
-				   add: (SpBoxLayout newLeftToRight
-						    spacing: 2;
-						    add: searchModeDropList expand: false;
-						    add: searchInput;
-						    yourself);
-				   add: (SpBoxLayout newLeftToRight
-						    spacing: 2;
-						    add: allPackagesButton expand: false;
-						    add: chosenPackagesButton expand: false;
-						    add: enableRegexpCheckBox expand: false;
-						    addLast: helpButton;
-						    yourself);
-				   yourself
+				   add: searchModeDropList expand: false;
+				   add: searchInput;
+				   yourself);
+		  add: (SpBoxLayout newLeftToRight
+				   spacing: 2;
+				   add: enableRegexpCheckBox expand: false;
+				   addLast: helpButton;
+				   yourself);
+		  yourself
 ]
 
 { #category : #accessing }
@@ -97,14 +67,6 @@ StFinderSearchBar >> initializePresenters [
 	searchModeDropList := self newDropList
 		                      display: [ :search | search name ];
 		                      yourself.
-	chosenPackagesButton := self newButton
-		                        label: 'Packages…';
-		                        iconName: #radioButtonUnselected;
-		                        yourself.
-	allPackagesButton := self newButton
-		                     label: 'All Packages';
-		                     iconName: #radioButtonSelected;
-		                     yourself.
 	helpButton := self newButton
 		              icon: (Smalltalk ui icons iconNamed: #help);
 		              yourself
@@ -138,18 +100,6 @@ StFinderSearchBar >> searchModes: aListOfSearches [
 StFinderSearchBar >> updateSearchModes [
 
 	searchModeDropList items: self owner model availableSearches
-]
-
-{ #category : #events }
-StFinderSearchBar >> whenAllPackagesSelectedDo: aBlock [
-
-	allPackagesButton action: aBlock
-]
-
-{ #category : #events }
-StFinderSearchBar >> whenPackagesSelectedDo: aBlock [
-
-	chosenPackagesButton action: aBlock
 ]
 
 { #category : #events }
