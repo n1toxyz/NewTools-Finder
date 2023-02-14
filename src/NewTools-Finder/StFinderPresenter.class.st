@@ -10,10 +10,10 @@ Class {
 		'searchBar',
 		'resultTree',
 		'resultButtonBar',
-		'resultStatusBar',
 		'environmentBar',
 		'searchOptions',
-		'helpButton'
+		'helpButton',
+		'resultStatusBar'
 	],
 	#category : #'NewTools-Finder-Core'
 }
@@ -84,13 +84,12 @@ StFinderPresenter >> connectResultButtons [
 { #category : #layout }
 StFinderPresenter >> defaultLayout [
 
-	self flag: #todo. "Add Statusbar back again"
 	^ SpBoxLayout newTopToBottom
 		  spacing: 5;
 		  add: (SpBoxLayout newLeftToRight
 				   spacing: 2;
 				   add: searchBar;
-					addLast: helpButton;
+				   addLast: helpButton;
 				   yourself)
 		  expand: false;
 		  add: (SpBoxLayout newLeftToRight
@@ -101,7 +100,11 @@ StFinderPresenter >> defaultLayout [
 				   yourself)
 		  expand: false;
 		  add: resultTree;
-		  "add: resultStatusBar expand: false;"add: resultButtonBar
+		  add: (SpBoxLayout newLeftToRight
+				   spacing: 2;
+				   add: resultButtonBar expand: false;
+				   addLast: resultStatusBar;
+				   yourself)
 		  expand: false;
 		  yourself
 ]
@@ -113,8 +116,8 @@ StFinderPresenter >> initializePresenters [
 	searchBar searchModes: self model availableSearches.
 
 	helpButton := self newButton
-	              icon: (Smalltalk ui icons iconNamed: #help);
-	              yourself.
+		              icon: (Smalltalk ui icons iconNamed: #help);
+		              yourself.
 
 	searchOptions := self instantiate: StFinderSearchOptions.
 
@@ -124,13 +127,6 @@ StFinderPresenter >> initializePresenters [
 	resultTree := self newTree display: [ :result | result displayString ].
 
 	resultButtonBar := self instantiate: StFinderResultButtonBar.
-
-	self flag: #toImplement. "StatusBar with info about nr of packages searched and results."
-	self initializeStatusBar
-]
-
-{ #category : #initialization }
-StFinderPresenter >> initializeStatusBar [
 
 	resultStatusBar := self newStatusBar
 ]
@@ -164,12 +160,6 @@ StFinderPresenter >> openPackageChooserDialog [
 StFinderPresenter >> resultButtonBar [
 
 	^ resultButtonBar
-]
-
-{ #category : #accessing }
-StFinderPresenter >> resultStatusBar [
-
-	^ resultStatusBar
 ]
 
 { #category : #accessing }
@@ -236,5 +226,6 @@ StFinderPresenter >> updateResultsWith: results [
 
 	resultTree
 		roots: results;
-		children: [ :result | result children ]
+		children: [ :result | result children ].
+	resultStatusBar pushMessage: 'Found ',results size asString,' results'
 ]
