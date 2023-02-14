@@ -11,7 +11,9 @@ Class {
 		'resultTree',
 		'resultButtonBar',
 		'resultStatusBar',
-		'environmentBar'
+		'environmentBar',
+		'searchOptions',
+		'helpButton'
 	],
 	#category : #'NewTools-Finder-Core'
 }
@@ -40,9 +42,19 @@ StFinderPresenter >> connectPresenters [
 
 	searchBar
 		whenSubmitSearchDo: [ :text | self model searchBy: text ];
-		whenRegexActivatedDo: [ self model useRegex: true ];
-		whenRegexDeactivatedDo: [ self model useRegex: false ];
 		whenSearchModeChangedDo: [ :new | self model currentSearch: new ].
+
+	helpButton action: [
+		self flag: #todo. "Make better help text dialog."
+		(self newText
+			 beNotEditable;
+			 withoutEditionContextMenu;
+			 text: self class defaultExplanation;
+			 openDialog) title: 'Finder Help' ].
+
+	searchOptions
+		whenRegexActivatedDo: [ self model useRegex: true ];
+		whenRegexDeactivatedDo: [ self model useRegex: false ].
 
 	environmentBar
 		whenAllPackagesSelectedDo: [ self searchInAllPackages ];
@@ -75,8 +87,19 @@ StFinderPresenter >> defaultLayout [
 	self flag: #todo. "Add Statusbar back again"
 	^ SpBoxLayout newTopToBottom
 		  spacing: 5;
-		  add: searchBar expand: false;
-		add: environmentBar expand: false;
+		  add: (SpBoxLayout newLeftToRight
+				   spacing: 2;
+				   add: searchBar;
+					addLast: helpButton;
+				   yourself)
+		  expand: false;
+		  add: (SpBoxLayout newLeftToRight
+				   spacing: 2;
+				   add: searchOptions expand: false;
+				   add: SpNullPresenter new;
+				   add: environmentBar expand: false;
+				   yourself)
+		  expand: false;
 		  add: resultTree;
 		  "add: resultStatusBar expand: false;"add: resultButtonBar
 		  expand: false;
@@ -88,6 +111,12 @@ StFinderPresenter >> initializePresenters [
 
 	searchBar := self instantiate: StFinderSearchBar.
 	searchBar searchModes: self model availableSearches.
+
+	helpButton := self newButton
+	              icon: (Smalltalk ui icons iconNamed: #help);
+	              yourself.
+
+	searchOptions := self instantiate: StFinderSearchOptions.
 
 	environmentBar := self instantiate: StFinderEnvironmentBar.
 	self updateEnvironmentStatusFor: self model selectedPackages.

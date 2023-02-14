@@ -7,53 +7,19 @@ Class {
 	#instVars : [
 		'searchInput',
 		'searchButton',
-		'searchModeDropList',
-		'helpButton',
-		'enableRegexpCheckBox'
+		'searchModeDropList'
 	],
 	#category : #'NewTools-Finder-Widgets'
 }
 
-{ #category : #initialization }
-StFinderSearchBar >> connectPresenters [
-
-	helpButton action: [
-		self flag: #todo. "Make better help text dialog."
-		(self newText
-			 beNotEditable;
-			 withoutEditionContextMenu;
-			 text: self owner class defaultExplanation;
-			 openDialog) title: 'Finder Help' ]
-]
-
 { #category : #layout }
 StFinderSearchBar >> defaultLayout [
 
-	^ SpBoxLayout newTopToBottom
+	^ SpBoxLayout newLeftToRight
 		  spacing: 2;
-		  add: (SpBoxLayout newLeftToRight
-				   spacing: 2;
-				   add: searchModeDropList expand: false;
-				   add: searchInput;
-				   yourself);
-		  add: (SpBoxLayout newLeftToRight
-				   spacing: 2;
-				   add: enableRegexpCheckBox expand: false;
-				   addLast: helpButton;
-				   yourself);
+		  add: searchModeDropList expand: false;
+		  add: searchInput;
 		  yourself
-]
-
-{ #category : #accessing }
-StFinderSearchBar >> enableRegexpCheckBox [
-
-	^ enableRegexpCheckBox
-]
-
-{ #category : #accessing }
-StFinderSearchBar >> helpButton [
-
-	^ helpButton
 ]
 
 { #category : #initialization }
@@ -63,13 +29,9 @@ StFinderSearchBar >> initializePresenters [
 		               placeholder: 'Search... Hit return to accept';
 		               yourself.
 	searchButton := self newButton label: 'Search'.
-	enableRegexpCheckBox := self newCheckBox label: 'Regexp'.
 	searchModeDropList := self newDropList
 		                      display: [ :search | search name ];
-		                      yourself.
-	helpButton := self newButton
-		              icon: (Smalltalk ui icons iconNamed: #help);
-		              yourself
+		                      yourself
 ]
 
 { #category : #accessing }
@@ -100,18 +62,6 @@ StFinderSearchBar >> searchModes: aListOfSearches [
 StFinderSearchBar >> updateSearchModes [
 
 	searchModeDropList items: self owner model availableSearches
-]
-
-{ #category : #events }
-StFinderSearchBar >> whenRegexActivatedDo: aBlock [
-
-		enableRegexpCheckBox whenActivatedDo: aBlock
-]
-
-{ #category : #events }
-StFinderSearchBar >> whenRegexDeactivatedDo: aBlock [
-
-	enableRegexpCheckBox whenDeactivatedDo: aBlock
 ]
 
 { #category : #events }
