@@ -9,8 +9,15 @@ Class {
 
 { #category : #action }
 StFinderClassResult >> browseAction [
+	"Opens the system browser on its content. If it has a `StFinderSelectorResult` as a parent,
+	then opens the system browser on its content with the selector from its parent focused."
 
-	content browse
+	self hasSelectorParent
+		ifTrue: [
+			Smalltalk tools browser
+				openOnClass: self content
+				selector: self parent content ]
+		ifFalse: [ content browse ]
 ]
 
 { #category : #testing }
