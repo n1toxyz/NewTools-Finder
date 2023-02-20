@@ -123,6 +123,12 @@ StFinderResult >> isClassResult [
 ]
 
 { #category : #testing }
+StFinderResult >> isPragmaResult [
+
+	^ false
+]
+
+{ #category : #testing }
 StFinderResult >> isSelectorResult [
 
 	^ false
