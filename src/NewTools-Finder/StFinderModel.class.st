@@ -31,7 +31,8 @@ StFinderModel class >> defaultSearches [
 
 	^ {
 		  StFinderSelectorSearch.
-		  StFinderClassSearch }
+		  StFinderClassSearch.
+		StFinderPragmaSearch }
 ]
 
 { #category : #adding }
