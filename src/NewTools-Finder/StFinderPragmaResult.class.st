@@ -7,6 +7,12 @@ Class {
 	#category : #'NewTools-Finder-Result'
 }
 
+{ #category : #displaying }
+StFinderPragmaResult >> displayIcon [
+
+	^ self iconNamed: #changeUpdate
+]
+
 { #category : #testing }
 StFinderPragmaResult >> isPragmaResult [
 

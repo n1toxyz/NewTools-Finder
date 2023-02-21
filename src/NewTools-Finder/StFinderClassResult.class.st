@@ -20,6 +20,14 @@ StFinderClassResult >> browseAction [
 		ifFalse: [ content browse ]
 ]
 
+{ #category : #displaying }
+StFinderClassResult >> displayIcon [
+
+	self content isAbstract ifTrue: [ ^ self iconNamed: #classAbstract ].
+	self content isTrait ifTrue: [ ^ self iconNamed: #trait ].
+	^ self iconNamed: #class
+]
+
 { #category : #testing }
 StFinderClassResult >> hasBrowseAction [
 

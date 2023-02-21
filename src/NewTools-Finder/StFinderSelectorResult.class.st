@@ -15,6 +15,12 @@ StFinderSelectorResult >> browseAction [
 	Smalltalk tools browser openOnClass: self parent content selector: self content
 ]
 
+{ #category : #displaying }
+StFinderSelectorResult >> displayIcon [
+
+	^ self iconNamed: #book
+]
+
 { #category : #testing }
 StFinderSelectorResult >> hasBrowseAction [
 
