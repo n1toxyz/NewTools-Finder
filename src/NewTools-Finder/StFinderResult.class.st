@@ -54,6 +54,12 @@ StFinderResult >> content: anObject [
 ]
 
 { #category : #displaying }
+StFinderResult >> displayIcon [
+
+	^ nil
+]
+
+{ #category : #displaying }
 StFinderResult >> displayString [
 
 	^ content asString

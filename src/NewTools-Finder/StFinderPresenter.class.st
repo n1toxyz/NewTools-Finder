@@ -198,7 +198,9 @@ StFinderPresenter >> initializePresenters [
 	environmentBar := self instantiate: StFinderEnvironmentBar.
 	self updateEnvironmentStatusFor: self model selectedPackages.
 
-	resultTree := self newTree display: [ :result | result displayString ].
+	resultTree := self newTree
+		display: [ :result | result displayString ];
+		displayIcon: [ :result | result displayIcon ].
 
 	resultButtonBar := self instantiate: StFinderResultButtonBar.
 
