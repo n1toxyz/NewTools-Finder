@@ -14,7 +14,7 @@ StFinderClassResult >> browseAction [
 
 	self hasSelectorParent
 		ifTrue: [
-			Smalltalk tools browser
+			self browser
 				openOnClass: self content
 				selector: self parent content ]
 		ifFalse: [ content browse ]
@@ -62,20 +62,19 @@ StFinderClassResult >> hasVersionsAction [
 StFinderClassResult >> hierarchyAction [
 
 	self hasSelectorParent ifTrue: [
-		SystemNavigation new
+		self navigation
 			browseHierarchy: content
 			selector: self parent content.
 		^ self ].
 
-	SystemNavigation new browseHierarchy: content
+	self navigation browseHierarchy: content
 ]
 
 { #category : #action }
 StFinderClassResult >> inheritanceAction [
 
 	self hasInheritanceAction ifFalse: [ ^ self ].
-
-	SystemNavigation new
+	self systemNavigation
 		methodHierarchyBrowserForClass: self content
 		selector: self parent content
 ]
@@ -91,7 +90,7 @@ StFinderClassResult >> versionsAction [
 
 	self hasVersionsAction ifFalse: [ ^ self ].
 
-	Smalltalk tools versionBrowser
+	self versionBrowser
 		browseVersionsForClass: self content
 		selector: self parent content
 ]

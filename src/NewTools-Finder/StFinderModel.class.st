@@ -46,7 +46,6 @@ StFinderModel >> addSearch: aFinderSearch [
 
 { #category : #information }
 StFinderModel >> availablePackages [
-
 	"Returns for searching available packages by name."
 
 	^ environment packages
@@ -116,14 +115,14 @@ StFinderModel >> search [
 	self searchStarted.
 	job title: 'Searching...' translated.
 	results := useRegex
-		                     ifTrue: [
-		                     currentSearch
-			                     searchByRegex: searchString asRegex
-			                     in: environment ]
-		                     ifFalse: [
-		                     currentSearch
-			                     searchByString: searchString
-			                     in: environment ].
+		           ifTrue: [
+		           currentSearch
+			           searchByRegex: searchString asRegex
+			           in: environment ]
+		           ifFalse: [
+		           currentSearch
+			           searchByString: searchString
+			           in: environment ].
 	self searchEnded ] asJob run
 ]
 

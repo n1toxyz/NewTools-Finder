@@ -12,7 +12,9 @@ StFinderSelectorResult >> browseAction [
 
 	self hasBrowseAction ifFalse: [ ^ self ].
 
-	Smalltalk tools browser openOnClass: self parent content selector: self content
+	self browser
+		openOnClass: self parent content
+		selector: self content
 ]
 
 { #category : #displaying }
@@ -68,7 +70,7 @@ StFinderSelectorResult >> hierarchyAction [
 
 	self hasHierarchyAction ifFalse: [ ^ self ].
 
-	SystemNavigation new
+	self navigation
 		browseHierarchy: self parent content
 		selector: self content
 ]
@@ -76,7 +78,7 @@ StFinderSelectorResult >> hierarchyAction [
 { #category : #action }
 StFinderSelectorResult >> implementersAction [
 
-	SystemNavigation new browseAllImplementorsOf: content
+	self navigation browseAllImplementorsOf: content
 ]
 
 { #category : #action }
@@ -84,7 +86,7 @@ StFinderSelectorResult >> inheritanceAction [
 
 	self hasInheritanceAction ifFalse: [ ^ self ].
 
-	SystemNavigation new
+	self navigation
 		methodHierarchyBrowserForClass: self parent content
 		selector: self content
 ]
@@ -98,7 +100,7 @@ StFinderSelectorResult >> isSelectorResult [
 { #category : #action }
 StFinderSelectorResult >> sendersAction [
 
-	SystemNavigation new
+	self navigation
 		browseSendersOf: content
 		name: 'Senders of ' , content asString
 		autoSelect: content asString
@@ -107,7 +109,7 @@ StFinderSelectorResult >> sendersAction [
 { #category : #action }
 StFinderSelectorResult >> versionsAction [
 
-	Smalltalk tools versionBrowser
+	self versionBrowser
 		browseVersionsForClass: self parent content
 		selector: self content
 ]
