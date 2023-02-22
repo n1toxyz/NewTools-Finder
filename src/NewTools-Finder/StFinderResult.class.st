@@ -29,6 +29,14 @@ StFinderResult >> browseAction [
 	"Default does nothing. Subclasses may implement their own action for browsing."
 ]
 
+{ #category : #'system tool access' }
+StFinderResult >> browser [
+	"We should check how to do it via the stApplication but ok for now"
+
+	self flag: #comeBack.
+	^ Smalltalk tools browser
+]
+
 { #category : #accessing }
 StFinderResult >> children [
 
@@ -140,6 +148,14 @@ StFinderResult >> isSelectorResult [
 	^ false
 ]
 
+{ #category : #'system tool access' }
+StFinderResult >> navigation [
+	"We should check how to do it via the stApplication but ok for now"
+
+	self flag: #comeBack.
+	^ SystemNavigation default
+]
+
 { #category : #accessing }
 StFinderResult >> parent [
 
@@ -155,6 +171,13 @@ StFinderResult >> parent: anObject [
 { #category : #action }
 StFinderResult >> sendersAction [
 	"Default does nothing. Subclasses may implement their own action for senders."
+]
+
+{ #category : #'system tool access' }
+StFinderResult >> versionBrowser [
+	"We should check how to do it via the stApplication but ok for now"
+	self flag: #comeBack.
+	^ Smalltalk tools versionBrowser
 ]
 
 { #category : #action }

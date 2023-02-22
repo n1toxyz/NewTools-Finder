@@ -46,7 +46,6 @@ StFinderModel >> addSearch: aFinderSearch [
 
 { #category : #information }
 StFinderModel >> availablePackages [
-
 	"Returns for searching available packages by name."
 
 	^ environment packages
@@ -56,7 +55,6 @@ StFinderModel >> availablePackages [
 
 { #category : #accessing }
 StFinderModel >> availableSearches [
-
 	"Returns the searches available to the model. The first one is used as the default search mode."
 
 	^ availableSearches
@@ -64,7 +62,6 @@ StFinderModel >> availableSearches [
 
 { #category : #accessing }
 StFinderModel >> currentSearch [
-
 	"Returns the current search used by the model."
 
 	^ currentSearch
@@ -72,7 +69,6 @@ StFinderModel >> currentSearch [
 
 { #category : #accessing }
 StFinderModel >> currentSearch: aSearch [
-
 	"Sets the search used by the model to aSearch. aSearch should be one of the availableSearches."
 
 	currentSearch := aSearch
@@ -119,14 +115,14 @@ StFinderModel >> search [
 	self searchStarted.
 	job title: 'Searching...' translated.
 	results := useRegex
-		                     ifTrue: [
-		                     currentSearch
-			                     searchByRegex: searchString asRegex
-			                     in: environment ]
-		                     ifFalse: [
-		                     currentSearch
-			                     searchByString: searchString
-			                     in: environment ].
+		           ifTrue: [
+		           currentSearch
+			           searchByRegex: searchString asRegex
+			           in: environment ]
+		           ifFalse: [
+		           currentSearch
+			           searchByString: searchString
+			           in: environment ].
 	self searchEnded ] asJob run
 ]
 
@@ -160,7 +156,6 @@ StFinderModel >> searchStarted [
 
 { #category : #accessing }
 StFinderModel >> searchString [
-
 	"Return the current search string."
 
 	^ searchString
@@ -168,7 +163,6 @@ StFinderModel >> searchString [
 
 { #category : #accessing }
 StFinderModel >> searchString: aString [
-
 	"Set the search string, which is to be used for further searches."
 
 	searchString := aString
