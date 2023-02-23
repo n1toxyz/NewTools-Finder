@@ -23,8 +23,9 @@ StFinderClassResult >> browseAction [
 { #category : #displaying }
 StFinderClassResult >> displayIcon [
 
-	self content isAbstract ifTrue: [ ^ self iconNamed: #classAbstract ].
 	self content isTrait ifTrue: [ ^ self iconNamed: #trait ].
+	(self content inheritsFrom: Exception) ifTrue: [ ^ self iconNamed: #exception ].
+	self content isAbstract ifTrue: [ ^ self iconNamed: #classAbstract ].
 	^ self iconNamed: #class
 ]
 
