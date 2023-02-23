@@ -13,7 +13,9 @@ Class {
 		'environmentBar',
 		'searchOptions',
 		'helpButton',
-		'resultStatusBar'
+		'resultStatusBar',
+		'resultPane',
+		'resultPresenterProvider'
 	],
 	#category : #'NewTools-Finder-Core'
 }
@@ -118,7 +120,7 @@ StFinderPresenter >> connectPresenters [
 		whenSubmitSearchDo: [ :text | self model searchBy: text ];
 		whenSearchModeChangedDo: [ :new | self model currentSearch: new ].
 
-	helpButton action: [
+	helpButton action: [ 
 		self flag: #todo. "Make better help text dialog."
 		(self newText
 			 beNotEditable;
@@ -134,10 +136,10 @@ StFinderPresenter >> connectPresenters [
 		whenAllPackagesSelectedDo: [ self searchInAllPackages ];
 		whenPackagesSelectedDo: [ self openPackageChooserDialog ].
 
-	resultTree whenSelectedItemChangedDo: [ :newResult |
+	resultTree whenSelectedItemChangedDo: [ :newResult | 
 		newResult
-			ifNil: [ self resultButtonBar disableAll ]
-			ifNotNil: [ self resultButtonBar enableButtonsFor: newResult ] ].
+			ifNil: [ self noResultSelected ]
+			ifNotNil: [ self selectedResult: newResult ] ].
 
 	self connectResultButtons.
 
@@ -173,7 +175,7 @@ StFinderPresenter >> defaultLayout [
 				   add: environmentBar expand: false;
 				   yourself)
 		  expand: false;
-		  add: resultTree;
+		  add: resultPane;
 		  add: (SpBoxLayout newLeftToRight
 				   spacing: 2;
 				   add: resultButtonBar expand: false;
@@ -199,8 +201,15 @@ StFinderPresenter >> initializePresenters [
 	self updateEnvironmentStatusFor: self model selectedPackages.
 
 	resultTree := self newTree
-		display: [ :result | result displayString ];
-		displayIcon: [ :result | result displayIcon ].
+		              display: [ :result | result displayString ];
+		              displayIcon: [ :result | result displayIcon ].
+
+	resultPresenterProvider := StFinderResultPresenterProvider new.
+
+	resultPane := SpPanedLayout newHorizontal
+		              add: resultTree;
+		              add: SpNullPresenter new;
+		              yourself.
 
 	resultButtonBar := self instantiate: StFinderResultButtonBar.
 
@@ -215,6 +224,13 @@ StFinderPresenter >> initializeWindow: aWindowPresenter [
 		title: 'Finder';
 		initialExtent: 800 @ 600;
 		windowIcon: (self iconNamed: #smallFind)
+]
+
+{ #category : #'updating - widgets' }
+StFinderPresenter >> noResultSelected [
+
+	self resultButtonBar disableAll.
+	resultPane replaceSecond: SpNullPresenter new
 ]
 
 { #category : #private }
@@ -271,6 +287,14 @@ StFinderPresenter >> searchInPackages: aCollection [
 StFinderPresenter >> selectedResult [
 
 	^ resultTree selectedItem
+]
+
+{ #category : #'updating - widgets' }
+StFinderPresenter >> selectedResult: aResult [
+
+	self resultButtonBar enableButtonsFor: aResult.
+	resultPane replaceSecond:
+		(resultPresenterProvider presenterFor: aResult)
 ]
 
 { #category : #initialization }
